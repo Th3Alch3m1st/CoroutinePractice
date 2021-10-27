@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBasicCoroutine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="Basic Coroutine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvBasicCoroutine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="Result"
+        app:layout_constraintBottom_toBottomOf="@id/btnBasicCoroutine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnBasicCoroutine" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnJobPractice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="Execute Job"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnBasicCoroutine" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnJobPractice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnJobPractice"
+        app:layout_constraintTop_toTopOf="@id/btnJobPractice" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAsyncAndWait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="Async and await"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnJobPractice" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvIncrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@id/btnAsyncAndWait"
+        app:layout_constraintStart_toEndOf="@id/btnAsyncAndWait"
+        app:layout_constraintTop_toTopOf="@id/btnAsyncAndWait" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDecrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@id/btnAsyncAndWait"
+        app:layout_constraintStart_toEndOf="@id/tvIncrement"
+        app:layout_constraintTop_toTopOf="@id/btnAsyncAndWait" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTotalSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@id/btnAsyncAndWait"
+        app:layout_constraintStart_toEndOf="@id/tvDecrement"
+        app:layout_constraintTop_toTopOf="@id/btnAsyncAndWait" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
