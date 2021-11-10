@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.learn.coroutinepractice.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
@@ -34,6 +35,8 @@ class MainActivity : AppCompatActivity() {
             btnBasicCoroutine.setOnClickListener {
                 lifecycle.coroutineScope.launch(IO) {
                     testBasicCoroutine()
+                    //coroutineTimeoutExample()
+                    //testRunBlocking()
                 }
             }
             btnJobPractice.setOnClickListener {
@@ -47,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
             btnAsyncAndWait.setOnClickListener {
                 asyncAndAwait()
+            }
+
+            btnSupervisorJob.setOnClickListener {
+                testSupervisorJob()
             }
         }
     }
@@ -71,6 +78,22 @@ class MainActivity : AppCompatActivity() {
         }
         if (job == null) {
             Log.e("error", "Timeout")
+        }
+    }
+
+    /**
+     * run blocking block the thread it's excuting
+     */
+    private suspend fun testRunBlocking() {
+        CoroutineScope(IO).launch {
+            for (i in 0 .. 10){
+                delay(1000)
+                Log.e("error","${Thread.currentThread().name} : $i")
+            }
+        }
+        runBlocking(IO) {
+            Log.e("error","${Thread.currentThread().name} : runBlocking")
+            delay(5000)
         }
     }
 
@@ -172,4 +195,50 @@ class MainActivity : AppCompatActivity() {
         }
         return sum
     }
+    /**
+     * Structured concurrency
+     * if a job throw an exception later all job will fail and parent will fail
+     * if CancellationException is thrown from a job or cancelled, that specific job will cancelled other job will succeed and parent job will succeed
+     */
+
+    /**
+     * supervisorScope handle exception thrown from one coroutine scope, parent task will not fail
+     * if a exception happen. Other task will execute smoothly.
+     */
+    private fun testSupervisorJob(){
+        val handler = CoroutineExceptionHandler{coroutineContext, throwable ->
+            Log.e("error","Handler: ${throwable.localizedMessage}")
+        }
+        val parent = lifecycle.coroutineScope.launch(IO+handler){
+            supervisorScope {
+                launch {
+                    Log.e("error","Show Result for 1:${getMultiplicationValue(1)}")
+                }
+                launch {
+                    Log.e("error","Show Result for 2:${getMultiplicationValue(2)}")
+                }
+                launch {
+                    Log.e("error","Show Result for 3:${getMultiplicationValue(3)}")
+                }
+            }
+        }
+
+        parent.invokeOnCompletion { throwable->
+            throwable?.let {
+                Log.e("error","Paren: ${it.localizedMessage }")
+            }
+
+        }
+    }
+
+    private suspend fun getMultiplicationValue(value:Int):Int{
+        delay(500L*value)
+        if(value == 2){
+            throw Exception("Throwing exception for digit $value")
+        }
+
+        return value*10
+    }
+
+
 }
